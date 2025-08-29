@@ -47,13 +47,15 @@ const LoginPage = () => {
   };
 
 
-  // 手機號碼驗證
+  // 信箱驗證
   const validatePhoneNumber = (_, value) => {
     if (!value) {
-      return Promise.reject('請輸入手機號碼');
+      return Promise.reject('請輸入信箱地址');
     }
-    if (!/^[0-9]{10}$/.test(value)) {
-      return Promise.reject('請輸入10位數字的手機號碼');
+    // 簡單 email 格式驗證
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      return Promise.reject('請輸入正確的信箱格式');
     }
     return Promise.resolve();
   };
@@ -64,16 +66,16 @@ const LoginPage = () => {
   const login = async (values) => {
     try {
       console.log('[登入param]', values);
-      const res = await api.post('/v1/auth/login/using-password', values);
+      const res = await api.post('/v1/admin/login', values);
       console.log('[登入res]', res);
       const { token } = res.data;
       localStorage.setItem('accessToken', token);
       message.success('登入成功！');
       setAuthToken(token);
       handleLogin();
-      if (token) {
-        navigate('/');
-      }
+      // if (token) {
+      //   navigate('/');
+      // }
     } catch (err) {
       console.log('[登入Error]', err);
       message.error('登入失敗，請確認手機號碼和密碼是否正確');
@@ -106,20 +108,19 @@ const LoginPage = () => {
               <Form
                 form={form}
                 layout="vertical"
-                // onFinish={handleSubmit}
+                onFinish={handleSubmit}
                 autoComplete="off"
                 requiredMark={false}
               >
-                {/* 手機號碼輸入框 */}
+                {/* 信箱輸入框 */}
                 <Form.Item
-                  name="login_id"
+                  name="email"
                   rules={[{ validator: validatePhoneNumber }]}
                 >
                   <Input
                     size="large"
-                    placeholder="請輸入手機號碼"
+                    placeholder="name@example.com"
                     prefix={<UserOutlined style={{ color: '#bfbfbf' }} />}
-                    maxLength={10}
                   />
                 </Form.Item>
 
