@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect, useRef } from "react";
 import {
-  Layout, Typography, Table, Button, Select, Space } from "antd";
+  Layout, Typography, Table, Button, Select, Space,DatePicker, Input
+} from "antd";
 
 import AuthContext from "../../AuthContext";
 import { api, } from "../../api";
@@ -11,12 +12,15 @@ import UserOrderDetail from "./userOrderDetail";
 const { Content } = Layout;
 const { Text } = Typography;
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 
 const UserOrderList = () => {
   const orderDetailRef = useRef();
   const { isLoggedIn, handleLogout } = useContext(AuthContext);
   const [orderList, setOrderList] = useState([]);
   const [status, setStatus] = useState(""); // 新增付款狀態
+  const [orderNo, setOrderNo] = useState(""); // 新增：訂單號碼
+  const [dateRange, setDateRange] = useState([]); // 新增：日期區間
 
   // 顯示訂單明細（改為呼叫 UserOrderDetail 的 showOrderDetail 方法）
   const showOrderDetail = (record) => {
@@ -31,8 +35,15 @@ const UserOrderList = () => {
   };
 
   // 取得訂單清單
-  const getOrderList = async (status = '') => {
+  const getOrderList = async (status = '', orderNo = '', dateRange = []) => {
     try {
+      // 日期參數處理
+      let startDate = "";
+      let endDate = "";
+      if (dateRange && dateRange.length === 2) {
+        startDate = dateRange[0]?.format("YYYY-MM-DD") || "";
+        endDate = dateRange[1]?.format("YYYY-MM-DD") || "";
+      }
       const res = await api.get(`/v1/orders?status=${status}`);
       if (res.data.success === true) {
         setOrderList(res.data.data);
@@ -170,6 +181,23 @@ const UserOrderList = () => {
             }}
           >
             <Space wrap style={{ width: "100%" }}>
+              <Input
+                placeholder="訂單號碼"
+                style={{ width: 150 }}
+                value={orderNo}
+                onChange={e => setOrderNo(e.target.value)}
+                allowClear
+              />
+
+              <RangePicker
+                style={{ width: 260 }}
+                value={dateRange}
+                onChange={setDateRange}
+                allowClear
+                format="YYYY-MM-DD"
+                placeholder={["開始日期", "結束日期"]}
+              />
+
               <Select
                 placeholder="付款狀態"
                 style={{ width: 120 }}

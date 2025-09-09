@@ -73,9 +73,9 @@ const LoginPage = () => {
       message.success('登入成功！');
       setAuthToken(token);
       handleLogin();
-      // if (token) {
-      //   navigate('/');
-      // }
+      if (token) {
+        navigate('/userOrderList');
+      }
     } catch (err) {
       console.log('[登入Error]', err);
       message.error('登入失敗，請確認手機號碼和密碼是否正確');
@@ -88,7 +88,6 @@ const LoginPage = () => {
         <Row justify="center" align="middle" style={{ minHeight: '100vh' }}>
           <Col xs={22} sm={18} md={12} lg={8} xl={6}>
             <Card
-              bordered={false}
               style={{
                 boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
                 borderRadius: '12px'

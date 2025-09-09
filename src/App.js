@@ -23,7 +23,7 @@ function App() {
     <div className="App">
       {/* 設定路由路徑 */}
       <Routes>
-        <Route path="" element={<HomePage />}></Route>
+        <Route path="/homepage" element={<HomePage />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/privacyPolicy" element={<PrivacyPolicy />}></Route>
         <Route path="/termService" element={<TermService />}></Route>
@@ -32,7 +32,7 @@ function App() {
         <Route path="/checkout-confirm" element={<CheckoutConfirm />}></Route>
         <Route path="/checkout-payment" element={<CheckoutPayment />}></Route>
         <Route path="/payment-result" element={<PaymentResult />}></Route>
-        <Route path="/loginPage" element={<LoginPage />}></Route>
+        <Route path="" element={<LoginPage />}></Route>
         <Route path="/userProfile" element={<UserProfile />}></Route>
         <Route path="/userOrderDetail" element={<UserOrderDetail />}></Route>
         <Route path="/userOrderList" element={<UserOrderList />}></Route>
