@@ -6,7 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "depgraph": "depcruise src --include-only '^src' --output-type dot > deps.dot"
   },
   "dependencies": {
     "@ant-design/icons": "^5.3.7",
@@ -29,8 +30,6 @@
     "sass": "^1.72.0",
     "web-vitals": "^2.1.4"
   },
-  "devDependencies": {
-  },
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -49,5 +48,8 @@
       "last 1 safari version"
     ]
   },
-  "homepage": "/admin/"
+  "homepage": "/admin/",
+  "devDependencies": {
+    "dependency-cruiser": "^16.0.0"
+  }
 }
